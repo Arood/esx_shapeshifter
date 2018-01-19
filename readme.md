@@ -2,8 +2,8 @@
 
 ## Usage
 
-    /shapeshifter (id) (model)
+    /shapeshift (id) (model)
 
 To restore
 
-    /shapeshifter (id) restore
+    /shapeshift (id) restore
