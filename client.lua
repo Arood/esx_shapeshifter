@@ -1,10 +1,25 @@
 ESX = nil
+local turbo = false
 
 Citizen.CreateThread(function()
 	while ESX == nil do
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		Citizen.Wait(0)
 	end
+end)
+
+Citizen.CreateThread( function()
+  while true do
+    Citizen.Wait(0)
+    if turbo then
+      RestorePlayerStamina(GetPlayerPed(GetPlayerPed(-1)), 1.0)
+    end
+  end
+end)
+
+RegisterNetEvent('esx:shapeshift_turbo')
+AddEventHandler('esx:shapeshift_turbo', function(toggle)
+  turbo = toggle
 end)
 
 RegisterNetEvent('esx:shapeshift')
@@ -27,12 +42,12 @@ AddEventHandler('esx:shapeshift', function(args)
   end
   
   SetPlayerModel(GetPlayerFromServerId(tonumber(args[1])), model)
+  SetModelAsNoLongerNeeded(model)
   SetPedDefaultComponentVariation(GetPlayerPed(GetPlayerFromServerId(tonumber(args[1]))))
   Wait(200)
   SetPlayerModel(GetPlayerFromServerId(tonumber(args[1])), model)
+  SetModelAsNoLongerNeeded(model)
   SetPedDefaultComponentVariation(GetPlayerPed(GetPlayerFromServerId(tonumber(args[1]))))
-
-  TriggerEvent('esx:restoreLoadout')
 end)
 
 RegisterNetEvent('esx:shapeshift_restore')
